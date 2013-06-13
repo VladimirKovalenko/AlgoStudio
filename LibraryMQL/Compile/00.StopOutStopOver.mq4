@@ -1,12 +1,3 @@
-//---------------------------------------------------
-// Project: Untitled3
-// Language: MQL4
-// Type: Strategy
-// Author: 
-// Company: 
-// Copyright: 
-// Created: 31.10.2012
-//---------------------------------------------------
 //Stop Out должен выбивать из уровня вложности
 //Step over не заходит в вложенные функции
 
@@ -25,8 +16,8 @@ int deinit()
 int start()
 {
 	FF();
-Print("1 level");
-  return(0);
+	Print("1 level");
+  	return(0);
 }
 
 int FF(){
