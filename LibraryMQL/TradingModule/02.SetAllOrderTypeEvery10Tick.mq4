@@ -20,7 +20,7 @@ int start()
     	 ticket0=OrderSend(Symbol(),OP_BUY,1,Ask,30,SL,TP,"My order #",0,0);
     		 if(ticket0<0){
       			 int i0=GetLastError();
-        		 Print("OrderSend failed with error #", GetLastErrorDescription(i0));
+        		 Print("OrderSend failed with error #", i0);
         		 }
         return(0);
     }
@@ -32,7 +32,7 @@ int start()
     	 ticket1=OrderSend(Symbol(),OP_SELL,1,Bid,30,SL,TP,"My order #",16384,0);
 		     if(ticket1<0){
       			  int i1=GetLastError();
-        		  Print("OrderSend failed with error #", GetLastErrorDescription(i1));
+        		  Print("OrderSend failed with error #", i1);
         		  }
         return(0);
     }
@@ -44,7 +44,7 @@ int start()
      	ticket2=OrderSend(Symbol(),OP_BUYLIMIT,1,Ask,30,SL,TP,"My order #",16384,0);
      	if(ticket2<0){
        		int i2=GetLastError();
-        	Print("OrderSend failed with error #", GetLastErrorDescription(i2));
+        	Print("OrderSend failed with error #", i2);
         	}
         return(0);
     }
@@ -56,7 +56,7 @@ int start()
      	ticket3=OrderSend(Symbol(),OP_SELLLIMIT,1,Bid,30,SL,TP,"My order #",16384,0);
      	if(ticket3<0){
         	int i3=GetLastError();
-        	Print("OrderSend failed with error #", GetLastErrorDescription(i3));
+        	Print("OrderSend failed with error #", i3);
         	}
         return(0);
     }
@@ -68,7 +68,7 @@ int start()
      	ticket4=OrderSend(Symbol(),OP_BUYSTOP,1,Ask,30,SL,TP,"My order #",16384,0);
      	if(ticket4<0){
         	int i4=GetLastError();
-        	Print("OrderSend failed with error #", GetLastErrorDescription(i4));
+        	Print("OrderSend failed with error #", i4);
         	}
         return(0);
     }
@@ -81,7 +81,7 @@ int start()
      	ticket5=OrderSend(Symbol(),OP_SELLSTOP,1,Bid,30,SL,TP,"My order #",16384,0);
      	if(ticket5<0){
         	int i5=GetLastError();
-        	Print("OrderSend failed with error #", GetLastErrorDescription(i5));
+        	Print("OrderSend failed with error #", i5);
         	}
         return(0);
         }

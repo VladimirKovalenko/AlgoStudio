@@ -1,3 +1,5 @@
+//Что это за скрипт, надо расчихлить.
+
 int totaltrades;
 int i, ticket;
 double _array[];
