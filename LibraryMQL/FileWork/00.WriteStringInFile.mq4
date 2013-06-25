@@ -1,4 +1,7 @@
 int file;
+
+#import <sdf.dll>;
+
 int init()
 {
 	file= FileOpen("D:\\TestReport.csv",FILE_CSV|FILE_WRITE|FILE_READ,';');
