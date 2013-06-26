@@ -2,7 +2,8 @@
 за последние 10 минут, то торгуем. Входим по направлению движение последних 
 60 секунд. тейкпрофет 100 пунктов, стоп лосс 50 пунктов.*/
 
-int side,ticket;
+extern int TP=100;
+int side,ticket=0;
 double price, sl, tp;
 
 //Функция для отлова ошибок. Работает, проверил.
@@ -45,6 +46,11 @@ int positionSide(int bar1)
 
 int start()
 {
+	datetime closeTime=OrderCloseTime();
+	if(ticket!=0)
+		if(closeTime==0)
+			return;
+	
 	int bar10=selectBar(600, 10);
 	if(bar10==-1)
 		return;
@@ -59,25 +65,26 @@ int start()
 	int volume10=volumeCounter(bar10);
 	int volume1=volumeCounter(bar1);
 	
+
 	side=positionSide(bar1);
 	
 	if(side==0)	
 	{
 		price=Ask;
-		sl=Bid-50*Point;
-		tp=Bid+100*Point;
+		sl=Bid-TP/2*Point;
+		tp=Bid+TP*Point;
 	}
 	else
 	{	
 		price=Bid;
-		sl=Ask+50*Point;
-		tp=Ask-100*Point;
+		sl=Ask+TP/2*Point;
+		tp=Ask-TP*Point;
 	}
 	
 	
 	if(volume1 > (1.2*(volume10/10)))
 	{
-		ticket=OrderSend(Symbol(),1, side, price,30, sl,tp);
+		ticket=OrderSend(Symbol(),side, 1, price,30, sl,tp);
 		errorLog();
 		bool select=OrderSelect(ticket, SELECT_BY_TICKET, MODE_TRADES);
 		errorLog();
