@@ -1,13 +1,14 @@
-extern double i=10;
+extern double i=1;
 extern int OpenStep=1;
 extern int CloseStep=1;
 int bar, count, count2,send, OpenBar, CloseBar;
-bool tick;
+bool tick,firstQuote=true;
 
-int init()
+int errorLog()
 {
-	OpenBar=OpenStep+Bars;
-	CloseBar=OpenStep+CloseStep+Bars;
+	int err=GetLastError();
+	if(err!=0)
+		Print(err);
 }
 
 void OpenPosi()
@@ -17,8 +18,11 @@ void OpenPosi()
 	if(Bars==OpenBar && count!=bar)
 	{
 		send=OrderSend(Symbol(), OP_BUY, i, Ask, 10, 0,0);
+		errorLog();
 		tick=OrderSelect(send,SELECT_BY_TICKET, MODE_TRADES);
+		errorLog();
 	    count=bar;
+	    Print("-----");
 	    OpenBar=OpenBar+OpenStep;
 	}
 }
@@ -29,10 +33,7 @@ void ClosePosi()
 	if(Bars==CloseBar && count2!=bar)
 	{
 		bool close=OrderClose(send, i, Bid, 100);
-		if(close!=true)
-		{
-			Print(GetLastError());
-		}
+		errorLog();
 	    count2=bar;
 	    CloseBar=CloseBar+OpenStep;
     }
@@ -43,7 +44,12 @@ void PrintOrder()
 	int    orders=HistoryTotal();
 	for(int i=orders-1;i>=0;i--)
     {
-		if(OrderSelect(i,SELECT_BY_POS,MODE_HISTORY)==false) { Print("Error in history!"); break; }
+		if(OrderSelect(i,SELECT_BY_POS,MODE_HISTORY)==false)
+		{
+			errorLog();
+			Print("Error in history!"); 
+			break; 
+		}
 		double prof=OrderProfit();
 		OrderPrint();
 	}
@@ -51,8 +57,14 @@ void PrintOrder()
 
 int start()
 { 
-	OpenPosi();
+	if(firstQuote)
+	{
+		OpenBar=OpenStep+Bars;
+		CloseBar=OpenStep+CloseStep+Bars;
+	}
+	firstQuote=false;
 	ClosePosi();
+	OpenPosi();
 //	PrintOrder();
 	return(0);
 }

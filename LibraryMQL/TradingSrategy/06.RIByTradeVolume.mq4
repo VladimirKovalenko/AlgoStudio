@@ -64,7 +64,7 @@ int start()
 	
 	int volume10=volumeCounter(bar10);
 	int volume1=volumeCounter(bar1);
-	
+	Print("Time: "+TimeToStr(TimeCurrent())+": Volume1= "+volume1+": volume10/10= "+volume10/10);
 
 	side=positionSide(bar1);
 	
@@ -84,6 +84,7 @@ int start()
 	
 	if(volume1 > (1.2*(volume10/10)))
 	{
+		Print("------------------");
 		ticket=OrderSend(Symbol(),side, 1, price,30, sl,tp);
 		errorLog();
 		bool select=OrderSelect(ticket, SELECT_BY_TICKET, MODE_TRADES);
