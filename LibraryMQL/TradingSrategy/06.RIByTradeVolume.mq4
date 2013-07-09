@@ -47,6 +47,14 @@ int volumeCounter(int bar)
 	return(totalVolume);
 }
 
+/*Если движение за последние 60 сек.> чем 1.2*среднее движение
+за последние 10 минут, то торгуем. Входим по направлению движение последних 
+60 секунд. тейкпрофет 100 пунктов, стоп лосс 50 пунктов.*/
+int priceRange(int bar)
+{
+	return (MathAbs(Close[0]-Close[bar]));
+}
+
 int positionSide(int bar1)
 {
 	double result=(Bid+Ask)/2-Close[bar1];
@@ -57,13 +65,17 @@ int positionSide(int bar1)
 
 void sendPosition()
 {
-	int volume10=volumeCounter(bar10);
-	int volume1=volumeCounter(bar1);
-	if(volume10==-1 || volume1==-1)
-		return;
-	Print("Time: "+TimeToStr(TimeCurrent())+": Volume1= "+volume1+": volume10/10= "+volume10/10);
-
-	if(volume1 > (1.2*(volume10/10)))
+//	int volume10=volumeCounter(bar10);
+//	int volume1=volumeCounter(bar1);
+	double range10=priceRange(bar10);
+	double range1=priceRange(bar1);
+	
+//	if(volume10==-1 || volume1==-1)
+//		return;
+//	Print("Time: "+TimeToStr(TimeCurrent())+": Volume1= "+volume1+": volume10/10= "+volume10/10);
+	Print("Time: "+TimeToStr(TimeCurrent())+": Volume1= "+range1+": volume10/10= "+range10/10);
+//	if(volume1 > (1.2*(volume10/10)))
+	if(range1 > (1.2*(range10/10)))
 	{
 		side=positionSide(bar1);
 		if(side==0)	
