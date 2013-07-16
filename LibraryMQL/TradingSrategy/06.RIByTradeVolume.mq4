@@ -24,9 +24,9 @@ int selectBar(int range, int shift)
 	datetime time=(TimeCurrent()-range);	
 	int shiftTime=iBarShift(Symbol(), 0, time, false);
 	
-	/*ѕровер€ет соответствует ли выбранный бар интервалу в 10 мин - shiuft
+	/*ѕровер€ет соответствует ли выбранный бар интервалу в 10 мин - shift
 	shift секунд из-за того что тиковые бары не чЄтко по времени прив€заны.*/
-	if(Time[shiftTime]>time-shift)	
+	if(Time[shiftTime]>time-shift || shiftTime>2000)	//—делано из-за 21412
 		return(-1);
 	else return(shiftTime);
 }
@@ -67,8 +67,8 @@ void sendPosition()
 {
 //	int volume10=volumeCounter(bar10);
 //	int volume1=volumeCounter(bar1);
-	double range10=priceRange(bar10);
-	double range1=priceRange(bar1);
+	double range10=priceRange(bar10-2);
+	double range1=priceRange(bar1-1);
 	
 //	if(volume10==-1 || volume1==-1)
 //		return;
