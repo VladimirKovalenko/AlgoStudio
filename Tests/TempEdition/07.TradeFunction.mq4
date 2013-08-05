@@ -2,7 +2,7 @@
 //double g;
 int start()
 {
-    string symb=Symbol();
+    	string symb=Symbol();
         //”станавливаем маркет ордер(последний параметр не работает)
 		int i=OrderSend(symb, OP_SELL, 0.01, Bid, 10, Ask+0.0005, Bid-0.0005, "I dont why it's need", 123456, 0, White);
 		//¬ыбираем поставленный ордер дл€ дальнейшей работы
