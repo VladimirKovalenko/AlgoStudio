@@ -2,29 +2,29 @@ int mas[3]={1,2,3}, integer=5;
 double float=5.25;
 string str="test string";
 int file, file1, file2,writearray,DouStrInt;
-string 	filelocation="D:\ptfile.csv",
-		filelocation1="D:\ptfile2.csv",
-		filelocation2="C:\Program Files (x86)\MetaTrader 4\history\default\USDCHF240.hst",
-		writearraylocation="D:\writearray.csv",
-		DouStrIntlocation="D:\DouStrInt.csv";
+string 	filelocation="D:\\ptfile.csv",
+		filelocation1="D:\\ptfile2.csv",
+		filelocation2="C:\\Program Files (x86)\\MetaTrader 4\\history\\default\\USDCHF240.hst",
+		writearraylocation="D:\\writearray.csv",
+		DouStrIntlocation="D:\\DouStrInt.csv";
 int init()
 {
     //Открывает Файл для ввода и/или вывода. 
     //1) Комбинация FILE_CSV|FILE_WRITE. Открываем как текстовый фаил нулевой длины.Даже если до открытия в файле были данные, то они будут уничтожены.
 	file= FileOpen(filelocation,FILE_CSV|FILE_WRITE,' ');
-	if(file==-1)Print(GetLastError(), " - ", GetLastErrorDescription());
+	if(file==-1)Print(GetLastError(), " - ", GetLastError());
 	//2) Комбинация FILE_READ | FILE_WRITE для того что б данные дописывались в фаил 
 	file1= FileOpen(filelocation1,FILE_CSV|FILE_READ|FILE_WRITE,' ');
-	if(file1==-1)Print(GetLastError(), " - ", GetLastErrorDescription());
+	if(file1==-1)Print(GetLastError(), " - ", GetLastError());
 	//3) Открытие истории
 	file2= FileOpen(filelocation2,FILE_CSV|FILE_WRITE,' ');
-	if(file2==-1)Print(GetLastError(), " - ", GetLastErrorDescription());
+	if(file2==-1)Print(GetLastError(), " - ", GetLastError());
 	//4) Запись масива в бинарный фаил
 	writearray= FileOpen(writearraylocation,FILE_BIN|FILE_WRITE,' ');
-	if(file2==-1)Print(GetLastError(), " - ", GetLastErrorDescription());
+	if(file2==-1)Print(GetLastError(), " - ", GetLastError());
 	//5) Запись double+integer+string
 	DouStrInt= FileOpen(DouStrIntlocation,FILE_BIN|FILE_WRITE,' ');
-	if(DouStrInt==-1)Print(GetLastError(), " - ", GetLastErrorDescription());
+	if(DouStrInt==-1)Print(GetLastError(), " - ", GetLastError());
 	return(0);
 	}
 int start()
