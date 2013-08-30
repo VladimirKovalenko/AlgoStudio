@@ -1,12 +1,15 @@
 int mas[3]={1,2,3}, integer=5;
 double float=5.25;
 string str="test string";
+int arr[2]={3,2};
 int file, file1, file2,writearray,DouStrInt;
+
 string 	filelocation="D:\\ptfile.csv",
 		filelocation1="D:\\ptfile2.csv",
 		filelocation2="C:\\Program Files (x86)\\MetaTrader 4\\history\\default\\USDCHF240.hst",
 		writearraylocation="D:\\writearray.csv",
 		DouStrIntlocation="D:\\DouStrInt.csv";
+		
 int init()
 {
     //Открывает Файл для ввода и/или вывода. 
@@ -26,7 +29,8 @@ int init()
 	DouStrInt= FileOpen(DouStrIntlocation,FILE_BIN|FILE_WRITE,' ');
 	if(DouStrInt==-1)Print(GetLastError(), " - ", GetLastError());
 	return(0);
-	}
+}
+	
 int start()
 { 
 	//1) Проверка для первого кейса
@@ -45,7 +49,9 @@ int start()
 	//-----------------------------------------------------
 	return(0);
 	}
-int deinit(){
+	
+int deinit()
+{
     //1) Проверка для первого кейса
     //Закрытие файла, ранее открытого функцией FileOpen().
     FileClose(file);
@@ -72,7 +78,7 @@ int deinit(){
     FileClose(file2);
     //-----------------------------------------------------
     //4) Проверка записи масива данных в файл.
-    int wrarr=FileWriteArray(writearray, integer, 0, 3); // запись последних 3 элементов
+    int wrarr=FileWriteArray(writearray, arr, 0, 2); // запись последних 3 элементов
     if(GetLastError()!=0 || wrarr<=0)Print(GetLastError());
     FileClose(writearray);
     //-----------------------------------------------------
@@ -100,16 +106,18 @@ int deinit(){
     
     int stringwr=FileWriteString(DouStrInt, str, 12);
     Print(stringwr);
-    if(GetLastError()!=0 || stringwr<=0)Print("FileWriteString", GetLastError());
+    if(GetLastError()!=0 || stringwr<=0)
+    	Print("FileWriteString", GetLastError());
     
     bool end4=FileIsEnding(DouStrInt);
 	if(GetLastError()!=0)Print(GetLastError());
-    if (end4!=1){
+    if (end4!=1)
+    {
         bool seek4=FileSeek(DouStrInt, 0, SEEK_END);
         if(GetLastError()!=0)Print(GetLastError());
-        }
+    }
     
     FileClose(DouStrInt);
     return(0);
-    }
+}
     

@@ -41,9 +41,9 @@ int start()
 //	Print("1");
 	
 	orderSender();
-//	int ret=MessageBox("Ћ€ськи мас€ськи", "Question", MB_ABORTRETRYIGNORE|MB_ICONQUESTION);	//ignor значит все ок
+	int ret=MessageBox("Ћ€ськи мас€ськи", "Question", MB_ABORTRETRYIGNORE|MB_ICONQUESTION);	//ignor значит все ок
 //	Print("4");
-	int ret =5;
+//	int ret =5;
 	if(ret==3)
 		caseNumber=-1;
 	if(ret==4)

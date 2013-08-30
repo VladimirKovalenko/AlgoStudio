@@ -2,9 +2,9 @@ extern double i=0.01;
 int count, count2,send1, send2, send3;
 int start()
 { 
-int bar=Bars;
-if (Bars==50){
-Print("ddfdf");
+	int bar=Bars;
+	if (Bars==50){
+	Print("ddfdf");
 }
 if(bar%50==0 && count!=bar){
 		send1=OrderSend("EURUSD", OP_BUY, i, Ask, 0, 0,0);

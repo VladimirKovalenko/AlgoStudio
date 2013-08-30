@@ -1,7 +1,7 @@
 /*Нужно поставить баланс over 1kkk*/
 
 
-extern bool OneTradeMode		=false;
+extern bool OneTradeMode		=true;
 extern string G1				="----------";
 extern bool AllTradeMode		=true;
 extern bool op_buyBlock			=true;
@@ -11,12 +11,10 @@ extern bool op_sellLimitBlock	=true;
 extern bool op_buyStopBlock		=true;
 extern bool op_sellStopBlock	=true;
 extern string G2				="----------";
-extern bool writeMatchingArr	=true;
+extern bool writeMatchingArr	=false;
 
-string 		WritePath="C:\\Program Files (x86)\\MetaTrader 4\\tester\\files\\TestAS";
-//string 		WritePath="TestMT";
-
-string 		posiStatus;
+string 		posiStatus,
+			WritePath;
 
 int 		allCounter			=0, //счётчик совершённых сделок. Используется для индексирования массивов юниттестов.
 			failCounter			=0, //счётчик проваленных трейдов по типу операции.Используется для логов по торговле.
@@ -73,6 +71,14 @@ int exceptionArray[][];
 
 int init()
 {
+	//Определяем путь для сохранения файлов в зависимости от платформы.
+	if(TerminalCompany()=="PFSoft LLC")
+		WritePath="C:\\Program Files (x86)\\MetaTrader 4\\tester\\files\\TestAS";
+	else if(TerminalCompany()=="MetaQuotes Software Corp.")
+		WritePath="TestMT";
+	else 
+		Print("Incorrect file path");
+	
 	symbolArray[0]	=Symbol();
 	priceArray[0]	=Bid;
 	priceArray[1]	=Ask;
@@ -103,31 +109,34 @@ int init()
 	if(AllTradeMode)
 		allTrade();
 	if(OneTradeMode)
-		oneTrade(0,0,11,10,6,16,0) ;
+		oneTrade(0,5,11,10,6,15,8) ;
 }
 
 void deinit()
 {
-	//Запсиь данных в файлы для юнит тестов.(заменил массивы строками так как массивы не записывались из-за длинны)
-	int writeParamBidAsk	=FileWrite(paramBidAsk,priceArray[0]+";"+priceArray[0]);
-	int writeMatchType		=FileWrite(matchType,strMatchType);
-	int writeMatchLots		=FileWrite(matchLots,strMatchLots);
-	int writeMatchOpenPrice	=FileWrite(matchOpenPrice,strMatchOpenPrice);
-	int writeMatchStopLoss	=FileWrite(matchStopLoss,strMatchStopLoss);
-	int writeMatchTakeProfit=FileWrite(matchTakeProfit,strMatchTakeProfit);
-	int writeMatchProfit	=FileWrite(matchProfit,strMatchProfit);
-	int writeMatchClosePrice=FileWrite(matchClosePrice,strMatchClosePrice);
-	
-	//Close fle block
-	FileClose(paramBidAsk);
-	FileClose(matchType);
-	FileClose(matchLots);
-	FileClose(matchOpenPrice);
-	FileClose(matchStopLoss);
-	FileClose(matchTakeProfit);
-	FileClose(matchProfit);
-	FileClose(matchClosePrice);
-	FileClose(file);
+	if(AllTradeMode)
+	{
+		//Запсиь данных в файлы для юнит тестов.(заменил массивы строками так как массивы не записывались из-за длинны)
+		int writeParamBidAsk	=FileWrite(paramBidAsk,priceArray[0]+";"+priceArray[1]);
+		int writeMatchType		=FileWrite(matchType,strMatchType);
+		int writeMatchLots		=FileWrite(matchLots,strMatchLots);
+		int writeMatchOpenPrice	=FileWrite(matchOpenPrice,strMatchOpenPrice);
+		int writeMatchStopLoss	=FileWrite(matchStopLoss,strMatchStopLoss);
+		int writeMatchTakeProfit=FileWrite(matchTakeProfit,strMatchTakeProfit);
+		int writeMatchProfit	=FileWrite(matchProfit,strMatchProfit);
+		int writeMatchClosePrice=FileWrite(matchClosePrice,strMatchClosePrice);
+		
+		//Close fle block
+		FileClose(paramBidAsk);
+		FileClose(matchType);
+		FileClose(matchLots);
+		FileClose(matchOpenPrice);
+		FileClose(matchStopLoss);
+		FileClose(matchTakeProfit);
+		FileClose(matchProfit);
+		FileClose(matchClosePrice);
+		FileClose(file);
+	}
 }
 
 //Метод который выставляет ордер по заданным индксам
@@ -172,17 +181,6 @@ void oneTrade(int symbolIndex, int cmdIndex, int volumeIndex, int  priceIndex, i
 //---------------------------------------------
 void allTrade()
 {
-	//определение массива для СЛ ТП...самому не нравится
-	//Помоему можно удалить
-//	for(int AskArrayIndex=0; AskArrayIndex<ArraySize(coeficient); AskArrayIndex++)
-//	{
-//		SLTPArray[AskArrayIndex]=2 + coeficient[AskArrayIndex] * Point;
-//	}
-//	for(int BidArrayIndex=ArraySize(coeficient); BidArrayIndex<(ArraySize(coeficient)*2);BidArrayIndex++)
-//	{
-//		SLTPArray[BidArrayIndex]=1 + coeficient[BidArrayIndex - ArraySize(coeficient)] * Point;
-//	}
-	
 	for(int symbolIndex=0; symbolIndex<ArraySize(symbolArray); symbolIndex++)
 	{
 		for(int cmdIndex=0; cmdIndex<ArraySize(cmdArary); cmdIndex++)
@@ -236,8 +234,9 @@ void allTrade()
 									posiStatus="FAIL(";
 									failCounter++;
 								}
+								
 								writeFile=FileWrite(file, posiStatus + symbolIndex + "," + cmdIndex + "," + volumeIndex + "," + priceIndex + "," + slippageIndex + "," + stopLossIndex+
-													","+takeProfitIndex+") \t"+symbol+", "+cmd+", "+DoubleToStr(volume,4)+", "+/*price+", "+*/slippage+", "+DoubleToStr(stoploss,5)+
+													","+takeProfitIndex+") \t"+symbol+", "+cmd+", "+DoubleToStr(volume,5)+", "+/*price+", "+*/slippage+", "+DoubleToStr(stoploss,5)+
 													", "+DoubleToStr(takeprofit,5)+", "+comment+", "+magic+", "+expiration+", "+arrow_color+"\n");
 							}
 						}
